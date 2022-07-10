@@ -14,6 +14,11 @@ type application struct {
 
 func main() {
 
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("port must specify")
+	}
+
 	addr := flag.String("addr", ":5050", "HTTP network address")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
