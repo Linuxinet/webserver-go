@@ -14,7 +14,12 @@ type application struct {
 
 func main() {
 
-	addr := flag.String("addr", ":4040", "Http Port To listen")
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		log.Fatal("$PORT Must Be Set")
+	}
+
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
@@ -26,12 +31,12 @@ func main() {
 	flag.Parse()
 
 	srv := &http.Server{
-		Addr:     *addr,
+		Addr:     *port,
 		ErrorLog: errorLog,
 		Handler:  app.routes(),
 	}
 
-	infoLog.Printf("Listening On Port %s", *addr)
+	infoLog.Printf("Listening On Port %s", *port)
 	err := srv.ListenAndServe()
 	errorLog.Fatal(err)
 
