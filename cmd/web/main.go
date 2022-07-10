@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 	"os"
@@ -13,10 +14,12 @@ type application struct {
 
 func main() {
 
-	port := 4040
+	addr := flag.String("addr", ":5050", "HTTP network address")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+
+	flag.Parse()
 
 	app := &application{
 		infoLog:  infoLog,
@@ -24,12 +27,12 @@ func main() {
 	}
 
 	srv := &http.Server{
-		Addr:     *port,
+		Addr:     *addr,
 		ErrorLog: errorLog,
 		Handler:  app.routes(),
 	}
 
-	infoLog.Printf("Listening On Port %s", *port)
+	infoLog.Printf("Listening On Port %s", *addr)
 	err := srv.ListenAndServe()
 	errorLog.Fatal(err)
 
