@@ -6,7 +6,7 @@ while deploying go web app to heroku, make sure you set the port value to env va
 
 ```go
 ports := os.Getenv("PORT")
-        if ports == "o3" {
+        if ports == "" {
                 ports = "8080"
         }
         port := ":" + ports
