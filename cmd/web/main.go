@@ -28,7 +28,7 @@ func main() {
 	}
 
 	srv := &http.Server{
-		Addr:     ":8080",
+		Addr:     port,
 		ErrorLog: errorLog,
 		Handler:  app.routes(),
 	}
